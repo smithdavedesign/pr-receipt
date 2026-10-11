@@ -1,0 +1,57 @@
+{
+  "verdict": "pass",
+  "score": 4,
+  "summary": "Cheap to build and $0 to run, but demand for per-PR cost is only inferred and free tools (ccusage, claude-burn-rate) already cover most of it. No evidence anyone would pay.",
+  "forcingQuestions": {
+    "demand": {
+      "score": 3,
+      "evidence": "Adjacent pain only (Anthropic cost docs, blogs, anecdotes); RESEARCH.md found no thread asking for per-PR cost; no one has paid or asked for it."
+    },
+    "statusQuo": {
+      "score": 4,
+      "evidence": "/usage, ccusage and claude-burn-rate (per-branch) already exist and are free; the gap is only posting to the PR."
+    },
+    "specificity": {
+      "score": 4,
+      "evidence": "Target is 'small-team dev/lead on metered billing', a category; no named person; subscription users aren't billed per token."
+    },
+    "wedge": {
+      "score": 6,
+      "evidence": "Branch receipt CLI is a weekend build, but its output overlaps claude-burn-rate; the PR comment is the true differentiator."
+    },
+    "futureFit": {
+      "score": 4,
+      "evidence": "Rising-tide argument; Anthropic or ccusage can add per-PR cost natively; a feature rather than a product."
+    }
+  },
+  "premises": [
+    "Teams care about cost per PR, not per day or user (unsupported)",
+    "Claude Code logs reliably record gitBranch and cwd (unverified)",
+    "Developers will publish spend on PRs (doubtful for public repos)",
+    "Enough small teams are on metered billing (partly supported)",
+    "Someone will pay for it (unsupported; free-tool market)"
+  ],
+  "alternatives": [
+    "Minimal: a script or ccusage wrapper that prints a PR-ready markdown block by branch; open source it and measure stars",
+    "Ideal: GitHub Action plus exported JSON, multi-agent, cost-per-merged-PR trends (hosted, conflicts with $0)",
+    "Lateral: contribute branch/PR-comment support to ccusage or claude-burn-rate",
+    "No David repo overlaps (pr-split and RepoHQ do not do cost attribution), so there is nothing to extend"
+  ],
+  "wedge": "prreceipt comment: one idempotent PR comment with an aggregate cost receipt from local Claude Code logs",
+  "feasibility": {
+    "m1Weekend": true,
+    "zeroCost": true,
+    "notes": "TypeScript + Node CLI with fixture tests. One test: fixture of 3 messages at 1,000 in / 500 out at $3/$15 per M yields $0.0315 and 4,500 tokens, plus a real-logs check within 5% of ccusage; verify gitBranch is present on entries."
+  },
+  "risks": [
+    "Free incumbents and Anthropic could ship this natively",
+    "No clear monetization for a local open-source CLI",
+    "Branch metadata gaps (worktrees, renames) hurt trust",
+    "Subscription users see only an API-equivalent estimate",
+    "Privacy concerns about spend on public PRs",
+    "Weak match with David's interests"
+  ],
+  "killCriteria": "Drop if fewer than 3 people unprompted ask for per-PR cost, if branch attribution covers under 80% of real sessions, or if ccusage/claude-burn-rate ships PR comments.",
+  "landing": null,
+  "launch": null
+}

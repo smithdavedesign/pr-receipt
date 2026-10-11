@@ -1,0 +1,23 @@
+{
+  "title": "PR Receipt — what did this pull request cost in AI tokens?",
+  "repoName": "pr-receipt",
+  "oneLiner": "For developers and leads running Claude Code/Codex on metered billing, it attributes local agent token spend to each git branch and posts a cost receipt on the pull request.",
+  "overlaps": "pr-split (idea-board PR tooling) and Github-HQ (portfolio health dashboard) — neither does AI cost attribution; externally closest are ccusage and claude-burn-rate",
+  "tags": [
+    "dev-tools",
+    "ai"
+  ],
+  "effort": "Low",
+  "confidence": "Medium",
+  "sources": [
+    "https://code.claude.com/docs/en/costs",
+    "https://github.com/ryoppippi/ccusage",
+    "https://www.producthunt.com/p/claude-burn-rate/claude-burn-rate",
+    "https://coralogix.com/docs/user-guides/ai/code-agents/claude-code/",
+    "https://www.kunalganglani.com/blog/ai-agent-cost-per-task-2026",
+    "https://www.growthaccelerationpartners.com/blog/ai-cost-optimization-and-the-problem-of-runaway-token-costs",
+    "https://singularitymoments.com/content/clawdmeter-is-the-physical-warning-light-your-api-bill-desperately-needs/"
+  ],
+  "slug": "pr-receipt",
+  "recordedAt": "2026-10-10T18:06:45.038Z"
+}
