@@ -733,7 +733,7 @@ Node 22.
 
 ```sh
 npm install                 # dev-only: typescript, @types/node, yaml (tests), playwright-core (screenshots)
-npm test                    # 338 tests, node:test (needs git and bash on PATH; gh is faked)
+npm test                    # node:test (needs git and bash on PATH; gh is faked)
 npm run typecheck           # tsc over src + test
 npm start -- show --all     # run from source against your own ~/.claude and ~/.codex logs
 npm run build               # emit dist/ (bin: dist/bin.js)
@@ -798,7 +798,8 @@ non-numeric prices are rejected with the file path and field name.
 
 ## Deploy (free tier)
 
-This is a local CLI plus a GitHub Action, so there's nothing to host and it costs $0 to run.
+This is a local CLI plus a GitHub Action, so there's nothing to host and it costs $0 to run. (Since go-live
+there's also a static website on Vercel's free tier; see [LAUNCH-READY.md](LAUNCH-READY.md).)
 - `comment` and `report` use the user's own `gh` login against GitHub's API, which is free. `comment`
   makes one read and one write per run, `report` one search read.
 - **The Action runs on GitHub Actions**, which is free for public repositories and within the free
@@ -1061,15 +1062,16 @@ was checked by eye. The PRD's "`comment` under 5 s for 1,000 sessions" has a tim
 
 ## Infrastructure
 
-None requested for M1–M4, so no `.provision` file was written.
+None requested for M1–M4. **Go-live** added the website and a `.provision` file asking for the Vercel
+project `pr-receipt` and a $9/month Stripe payment link (details in [LAUNCH-READY.md](LAUNCH-READY.md)).
 - `comment` and `report` talk to GitHub through the user's own `gh` login.
 - The M4 Action uses the `GITHUB_TOKEN` that GitHub Actions gives every workflow run; the workflow grants
   it `pull-requests: write`. Nothing is stored, and the code never sees a token value: gh reads it from
   `GH_TOKEN`.
-- There's no GitHub App, OAuth app, database, API key or Vercel project. Codex support reads local files
-  only.
-- No payments: there is no REVENUE.md, so nothing says who pays or what must exist before charging. The
-  MVP has no checkout, pricing page or legal pages; REVIEW.md expects no revenue from a free-tool market.
+- There's no GitHub App, OAuth app, database or API key. Codex support reads local files only.
+- The CLI and the Action still take no payment and send no telemetry. The website (`site/`) is static on
+  Vercel. Its Buy button links to `STRIPE_PAYMENT_LINK` (read at build time, hidden when unset), and its
+  visit beacon only posts to RepoHQ from production builds.
 
 ## What's left
 

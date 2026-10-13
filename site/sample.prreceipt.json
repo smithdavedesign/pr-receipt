@@ -1,0 +1,68 @@
+{
+  "format": "prreceipt/1",
+  "exportedAt": "2026-10-13T07:10:34.048Z",
+  "receipt": {
+    "branch": "feat/checkout-flow",
+    "asOf": "2026-10-13",
+    "totalCost": 3.0341000000000005,
+    "totalTokens": 3102700,
+    "input": 153300,
+    "output": 87100,
+    "cacheWrite": 88300,
+    "cacheRead": 2774000,
+    "cacheHitRate": 0.9198832736437194,
+    "sessions": 5,
+    "wallTimeMs": 6510000,
+    "models": [
+      {
+        "model": "claude-sonnet-4-5",
+        "input": 84300,
+        "output": 63200,
+        "cacheWrite": 65300,
+        "cacheRead": 2409000,
+        "tokens": 2621800,
+        "cost": 2.1684750000000004
+      },
+      {
+        "model": "claude-opus-4-5",
+        "input": 24000,
+        "output": 11400,
+        "cacheWrite": 23000,
+        "cacheRead": 240000,
+        "tokens": 298400,
+        "cost": 0.66875
+      },
+      {
+        "model": "gpt-5-codex",
+        "input": 45000,
+        "output": 12500,
+        "cacheWrite": 0,
+        "cacheRead": 125000,
+        "tokens": 182500,
+        "cost": 0.19687499999999997
+      }
+    ],
+    "unpriced": [],
+    "unattributed": {
+      "sessions": 1,
+      "tokens": 48800,
+      "cost": 0.06
+    },
+    "window": {
+      "start": 1791280200000,
+      "end": 1791471000999
+    },
+    "fromWindow": {
+      "sessions": 1,
+      "tokens": 172500,
+      "cost": 0.1503
+    },
+    "diff": {
+      "base": "main",
+      "files": 4,
+      "insertions": 332,
+      "deletions": 38
+    },
+    "costPerLine": 0.008200270270270272
+  }
+}

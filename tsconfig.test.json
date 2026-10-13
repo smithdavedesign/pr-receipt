@@ -3,7 +3,9 @@
   "compilerOptions": {
     "rootDir": ".",
     "noEmit": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "allowJs": true,
+    "checkJs": true
   },
-  "include": ["src", "test"]
+  "include": ["src", "test", "site/*.ts", "site/static/*.js"]
 }

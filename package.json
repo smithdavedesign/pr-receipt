@@ -21,7 +21,10 @@
     "prepack": "npm run build",
     "typecheck": "tsc -p tsconfig.test.json",
     "start": "node --disable-warning=ExperimentalWarning src/bin.ts",
-    "screenshots": "node --disable-warning=ExperimentalWarning scripts/screenshots.mjs"
+    "screenshots": "node --disable-warning=ExperimentalWarning scripts/screenshots.mjs",
+    "site:build": "node --disable-warning=ExperimentalWarning site/build.ts",
+    "site:serve": "node --disable-warning=ExperimentalWarning site/serve.ts",
+    "site:sample": "node --disable-warning=ExperimentalWarning scripts/demo.mjs site/sample.prreceipt.json"
   },
   "keywords": [
     "claude-code",
