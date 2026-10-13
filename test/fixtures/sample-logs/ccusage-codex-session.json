@@ -1,0 +1,58 @@
+{
+  "_reference": "Reference derived from ccusage's published counting rules (see README.md), not captured from a ccusage run. Replace this file with real `--json` output to check against ccusage itself.",
+  "sessions": [
+    {
+      "sessionId": "2026/10/04/rollout-2026-10-04T10-00-00-0199b001-7a10-7c2e-9d01-5a3f00000001",
+      "sessionFile": "2026/10/04/rollout-2026-10-04T10-00-00-0199b001-7a10-7c2e-9d01-5a3f00000001.jsonl",
+      "directory": "/home/dev/shop",
+      "inputTokens": 143046,
+      "cachedInputTokens": 67225,
+      "outputTokens": 9044,
+      "reasoningOutputTokens": 3059,
+      "totalTokens": 152090,
+      "costUSD": 0.193619375,
+      "lastActivity": "2026-10-04",
+      "models": [
+        "gpt-5-codex"
+      ]
+    },
+    {
+      "sessionId": "2026/10/06/rollout-2026-10-06T15-30-00-0199b002-7a10-7c2e-9d01-5a3f00000002",
+      "sessionFile": "2026/10/06/rollout-2026-10-06T15-30-00-0199b002-7a10-7c2e-9d01-5a3f00000002.jsonl",
+      "directory": "/home/dev/shop",
+      "inputTokens": 127985,
+      "cachedInputTokens": 75681,
+      "outputTokens": 6617,
+      "reasoningOutputTokens": 2860,
+      "totalTokens": 134602,
+      "costUSD": 0.197414175,
+      "lastActivity": "2026-10-06",
+      "models": [
+        "gpt-5.3-codex"
+      ]
+    },
+    {
+      "sessionId": "2026/10/07/rollout-2026-10-07T08-45-00-0199b003-7a10-7c2e-9d01-5a3f00000003",
+      "sessionFile": "2026/10/07/rollout-2026-10-07T08-45-00-0199b003-7a10-7c2e-9d01-5a3f00000003.jsonl",
+      "directory": "/home/dev/shop",
+      "inputTokens": 77407,
+      "cachedInputTokens": 48786,
+      "outputTokens": 5182,
+      "reasoningOutputTokens": 2401,
+      "totalTokens": 82589,
+      "costUSD": 0.0936945,
+      "lastActivity": "2026-10-07",
+      "models": [
+        "gpt-5-codex"
+      ]
+    }
+  ],
+  "totals": {
+    "inputTokens": 348438,
+    "cachedInputTokens": 191692,
+    "outputTokens": 20843,
+    "reasoningOutputTokens": 8320,
+    "totalTokens": 369281,
+    "costUSD": 0.48472805
+  }
+}

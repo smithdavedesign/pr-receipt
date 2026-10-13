@@ -1,0 +1,39 @@
+{
+  "name": "prreceipt",
+  "version": "0.1.0",
+  "description": "What did this pull request cost in AI tokens? Attributes local Claude Code token spend to git branches and prints a markdown receipt or posts it on the pull request.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "prreceipt": "dist/bin.js"
+  },
+  "files": [
+    "dist",
+    "prices.json",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test --disable-warning=ExperimentalWarning \"test/*.test.ts\"",
+    "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build",
+    "typecheck": "tsc -p tsconfig.test.json",
+    "start": "node --disable-warning=ExperimentalWarning src/bin.ts",
+    "screenshots": "node --disable-warning=ExperimentalWarning scripts/screenshots.mjs"
+  },
+  "keywords": [
+    "claude-code",
+    "tokens",
+    "cost",
+    "pull-request",
+    "cli"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "playwright-core": "^1.64.0",
+    "typescript": "^5.9.3",
+    "yaml": "^2.9.1"
+  }
+}
