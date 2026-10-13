@@ -1,0 +1,155 @@
+{
+  "_reference": "Reference derived from ccusage's published counting rules (see README.md), not captured from a ccusage run. Replace this file with real `--json` output to check against ccusage itself.",
+  "sessions": [
+    {
+      "sessionId": "5e55a000-0000-4000-8000-000000000001",
+      "projectPath": "-home-dev-shop",
+      "inputTokens": 1361,
+      "outputTokens": 14746,
+      "cacheCreationTokens": 37817,
+      "cacheReadTokens": 390826,
+      "totalTokens": 444750,
+      "totalCost": 0.48433455,
+      "lastActivity": "2026-10-01",
+      "modelsUsed": [
+        "claude-sonnet-4-5-20250929"
+      ]
+    },
+    {
+      "sessionId": "5e55a000-0000-4000-8000-000000000002",
+      "projectPath": "-home-dev-shop",
+      "inputTokens": 1114,
+      "outputTokens": 8957,
+      "cacheCreationTokens": 23524,
+      "cacheReadTokens": 324545,
+      "totalTokens": 358140,
+      "totalCost": 0.62350125,
+      "lastActivity": "2026-10-01",
+      "modelsUsed": [
+        "claude-opus-4-5-20251101"
+      ]
+    },
+    {
+      "sessionId": "5e55a000-0000-4000-8000-000000000003",
+      "projectPath": "-home-dev-shop",
+      "inputTokens": 2217,
+      "outputTokens": 17349,
+      "cacheCreationTokens": 69632,
+      "cacheReadTokens": 533572,
+      "totalTokens": 622770,
+      "totalCost": 0.5467183,
+      "lastActivity": "2026-10-02",
+      "modelsUsed": [
+        "claude-sonnet-4-5-20250929",
+        "claude-haiku-4-5-20251001"
+      ]
+    },
+    {
+      "sessionId": "5e55a000-0000-4000-8000-000000000004",
+      "projectPath": "-home-dev-shop",
+      "inputTokens": 1090,
+      "outputTokens": 8785,
+      "cacheCreationTokens": 20903,
+      "cacheReadTokens": 204824,
+      "totalTokens": 235602,
+      "totalCost": 0.09162615,
+      "lastActivity": "2026-10-03",
+      "modelsUsed": [
+        "claude-haiku-4-5-20251001"
+      ]
+    },
+    {
+      "sessionId": "5e55a000-0000-4000-8000-000000000005",
+      "projectPath": "-home-dev-shop",
+      "inputTokens": 1251,
+      "outputTokens": 12352,
+      "cacheCreationTokens": 36936,
+      "cacheReadTokens": 473569,
+      "totalTokens": 524108,
+      "totalCost": 0.4696137,
+      "lastActivity": "2026-10-03",
+      "modelsUsed": [
+        "claude-sonnet-4-5-20250929"
+      ]
+    },
+    {
+      "sessionId": "5e55a000-0000-4000-8000-000000000006",
+      "projectPath": "-home-dev-shop",
+      "inputTokens": 905,
+      "outputTokens": 5586,
+      "cacheCreationTokens": 18557,
+      "cacheReadTokens": 332524,
+      "totalTokens": 357572,
+      "totalCost": 0.25585095,
+      "lastActivity": "2026-10-04",
+      "modelsUsed": [
+        "claude-sonnet-4-5-20250929"
+      ]
+    },
+    {
+      "sessionId": "5e55a000-0000-4000-8000-000000000007",
+      "projectPath": "-home-dev-shop",
+      "inputTokens": 699,
+      "outputTokens": 8060,
+      "cacheCreationTokens": 33158,
+      "cacheReadTokens": 250998,
+      "totalTokens": 292915,
+      "totalCost": 0.5377315,
+      "lastActivity": "2026-10-05",
+      "modelsUsed": [
+        "claude-opus-4-5-20251101"
+      ]
+    },
+    {
+      "sessionId": "5e55a000-0000-4000-8000-000000000008",
+      "projectPath": "-home-dev-shop",
+      "inputTokens": 845,
+      "outputTokens": 6663,
+      "cacheCreationTokens": 53666,
+      "cacheReadTokens": 457223,
+      "totalTokens": 518397,
+      "totalCost": 0.4408944,
+      "lastActivity": "2026-10-06",
+      "modelsUsed": [
+        "claude-sonnet-4-5-20250929"
+      ]
+    },
+    {
+      "sessionId": "5e55a000-0000-4000-8000-000000000009",
+      "projectPath": "-home-dev-shop",
+      "inputTokens": 1159,
+      "outputTokens": 14070,
+      "cacheCreationTokens": 23707,
+      "cacheReadTokens": 488722,
+      "totalTokens": 527658,
+      "totalCost": 0.26374565,
+      "lastActivity": "2026-10-07",
+      "modelsUsed": [
+        "claude-sonnet-4-5-20250929",
+        "claude-haiku-4-5-20251001"
+      ]
+    },
+    {
+      "sessionId": "5e55a000-0000-4000-8000-000000000010",
+      "projectPath": "-home-dev-shop",
+      "inputTokens": 595,
+      "outputTokens": 4020,
+      "cacheCreationTokens": 19087,
+      "cacheReadTokens": 120697,
+      "totalTokens": 144399,
+      "totalCost": 0.05662345,
+      "lastActivity": "2026-10-08",
+      "modelsUsed": [
+        "claude-haiku-4-5-20251001"
+      ]
+    }
+  ],
+  "totals": {
+    "inputTokens": 11236,
+    "outputTokens": 100588,
+    "cacheCreationTokens": 336987,
+    "cacheReadTokens": 3577500,
+    "totalTokens": 4026311,
+    "totalCost": 3.7706399
+  }
+}

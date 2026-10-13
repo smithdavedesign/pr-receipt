@@ -1,0 +1,32 @@
+# Copy to .github/workflows/prreceipt.yml in your repository.
+#
+# On your machine, on the pull request's branch:
+#   prreceipt export          # writes .prreceipt.json at the repo root and prints the receipt
+#   git add .prreceipt.json && git commit -m "PR receipt" && git push
+# This workflow then posts the receipt on the pull request, and updates the same comment after each new export.
+name: PR Receipt
+
+on:
+  pull_request:
+    # Only PRs that change the receipt. A .prreceipt.json inherited unchanged from the base branch doesn't
+    # trigger it; one that does but belongs to another branch is refused by the action.
+    paths: ['.prreceipt.json']
+
+permissions:
+  contents: read
+  pull-requests: write
+
+# One run per PR at a time, so two quick pushes can't both create a comment.
+concurrency:
+  group: prreceipt-${{ github.event.pull_request.number }}
+
+jobs:
+  receipt:
+    # PRs from forks get a read-only token and can't comment, so they're skipped instead of failing.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: smithdavedesign/pr-receipt@main
+        # with:
+        #   path: .prreceipt.json   # or a file an earlier step downloaded, e.g. from an artifact

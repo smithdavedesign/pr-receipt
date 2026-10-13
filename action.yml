@@ -1,0 +1,42 @@
+# PR Receipt GitHub Action: posts the receipt a developer exported with `prreceipt export` (and committed as
+# .prreceipt.json) as one comment on the pull request, updated on later runs. CI needs no agent logs.
+#
+# Every value reaches the shell through env: and is quoted, never pasted in with ${{ }}, so a branch name or
+# input can't run as code. See examples/prreceipt-workflow.yml for the workflow (trigger, permissions,
+# concurrency).
+name: PR Receipt
+description: Post the AI token cost receipt from a committed .prreceipt.json as one comment on the pull request.
+author: prreceipt
+branding:
+  icon: file-text
+  color: green
+inputs:
+  path:
+    description: The receipt file written by `prreceipt export`, relative to the workspace.
+    required: false
+    default: .prreceipt.json
+  github-token:
+    description: "Token gh posts with. Needs `pull-requests: write`."
+    required: false
+    default: ${{ github.token }}
+  pr:
+    description: Pull request number. Default, the pull request that triggered the workflow.
+    required: false
+    default: ${{ github.event.pull_request.number }}
+runs:
+  using: composite
+  steps:
+    # Node 24 runs the TypeScript sources directly (built-in type stripping): no install, no build.
+    - uses: actions/setup-node@v5
+      with:
+        node-version: 24
+        package-manager-cache: false
+    - name: Post the PR receipt
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        GH_REPO: ${{ github.repository }}
+        PRR_FILE: ${{ inputs.path }}
+        PRR_PR: ${{ inputs.pr }}
+      run: node --disable-warning=ExperimentalWarning "$GITHUB_ACTION_PATH/src/bin.ts" comment --from="$PRR_FILE" --pr="$PRR_PR"
