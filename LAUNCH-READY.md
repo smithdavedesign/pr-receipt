@@ -30,7 +30,7 @@ itself alone: nothing in `src/`, `action.yml` or the CLI's behaviour changed. `n
    - Without it, the pricing says "Not on sale yet … say so in an issue". No link is hard-coded, and a test
      checks that no `stripe.com` URL appears in the site, the scripts or the deploy config.
 4. **Visit beacon** (`site/static/site.js`). It POSTs `{"slug":"pr-receipt","kind":…,"referrer":…}` as JSON to
-   `https://repohq.vercel.app/api/ideas/signal` with `keepalive: true` and `credentials: 'omit'`, and never
+   `https://idea-factory.1426davejobs.workers.dev/api/ideas/signal` with `keepalive: true` and `credentials: 'omit'`, and never
    waits for an answer.
    - `visit`: on every page, once per browser session (sessionStorage).
    - `activate`: the first time someone copies the try-it command on the home page, by the Copy button or by
@@ -44,7 +44,7 @@ itself alone: nothing in `src/`, `action.yml` or the CLI's behaviour changed. `n
      holds any value. If storage is blocked, nothing is sent either.
 5. **Deployment.**
    - `vercel.json`: build command `npm run site:build`, output `site/out`, `cleanUrls`, and a CSP whose
-     `connect-src` allows only the site itself and repohq.vercel.app, plus `nosniff` and a referrer policy.
+     `connect-src` allows only the site itself and idea-factory.1426davejobs.workers.dev, plus `nosniff` and a referrer policy.
    - `.provision` has the two lines the pipeline runs through the credential broker.
 6. **Tests.** `test/site.test.ts` (39 tests, part of `npm test`) covers:
    - the pages render, with unique titles and descriptions, canonical, OG, Twitter and JSON-LD;
@@ -129,7 +129,7 @@ After the first production deploy:
   Test. The SoftwareApplication is valid, but there's no rating to show, so expect no rich result. No ratings
   were invented.
 - Beacon: open the site in a normal browser with DevTools → Network.
-  - Expect one POST to `repohq.vercel.app/api/ideas/signal` with `"kind":"visit"`, and none on reload.
+  - Expect one POST to `idea-factory.1426davejobs.workers.dev/api/ideas/signal` with `"kind":"visit"`, and none on reload.
   - Click Copy: `"activate"` once.
   - Click Buy: `"checkout"`.
   - A preview deployment sends nothing.
