@@ -188,7 +188,7 @@ describe('site: privacy and terms say what the product does and costs', () => {
     assert.match(privacy, /the prreceipt tool collects nothing/);
     assert.match(privacy, /No cookies/);
     for (const kind of ['visit', 'activate', 'checkout']) assert.match(privacy, new RegExp(`<strong>${kind}</strong>`));
-    assert.match(privacy, /repohq\.vercel\.app/);
+    assert.match(privacy, /idea-factory\.1426davejobs\.workers\.dev/);
     assert.match(privacy, /repohq:notrack/);
     assert.match(privacy, /automated browsers/);
     assert.match(privacy, /preview deployments/);
@@ -457,7 +457,7 @@ describe('site: RepoHQ visit beacon (site/static/site.js)', () => {
     assert.equal(f.sent.length, 1);
     const [{ url, init, body }] = f.sent;
     assert.equal(url, SIGNAL_URL);
-    assert.equal(url, 'https://repohq.vercel.app/api/ideas/signal');
+    assert.equal(url, 'https://idea-factory.1426davejobs.workers.dev/api/ideas/signal');
     assert.equal(init.method, 'POST');
     assert.equal(init.keepalive, true);
     assert.equal(init.credentials, 'omit');
@@ -592,7 +592,7 @@ describe('site: preview server (site/serve.ts)', async () => {
       const home = await fetch(`${base}/`);
       assert.equal(home.status, 200);
       assert.equal(home.headers.get('content-type'), 'text/html; charset=utf-8');
-      assert.match(home.headers.get('content-security-policy') ?? '', /connect-src 'self' https:\/\/repohq\.vercel\.app/);
+      assert.match(home.headers.get('content-security-policy') ?? '', /connect-src 'self' https:\/\/idea-factory\.1426davejobs\.workers\.dev/);
       assert.equal(home.headers.get('x-content-type-options'), 'nosniff');
       assert.match(await home.text(), /<title>PR Receipt: what did this pull request cost/);
       for (const path of ['/privacy', '/terms']) {

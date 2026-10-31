@@ -10,7 +10,7 @@
 // (navigator.webdriver), from builds that aren't Vercel production (<html data-env>), or when localStorage
 // "repohq:notrack" is set.
 
-export const SIGNAL_URL = 'https://repohq.vercel.app/api/ideas/signal';
+export const SIGNAL_URL = 'https://idea-factory.1426davejobs.workers.dev/api/ideas/signal';
 export const SLUG = 'pr-receipt';
 export const NOTRACK_KEY = 'repohq:notrack';
 export const VISIT_KEY = 'repohq:visit:pr-receipt';

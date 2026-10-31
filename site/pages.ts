@@ -243,7 +243,7 @@ const PRIVACY: Page = {
 <h2>This website</h2>
 <ul>
 <li>No cookies, accounts, forms, ads, or third-party scripts and fonts.</li>
-<li>To count real use, the site sends three kinds of event to RepoHQ (<code>repohq.vercel.app</code>), the dashboard the maintainer tracks this project with:
+<li>To count real use, the site sends three kinds of event to RepoHQ (<code>idea-factory.1426davejobs.workers.dev</code>), the dashboard the maintainer tracks this project with:
 <ul>
 <li><strong>visit</strong>: when you open a page, once per browser session;</li>
 <li><strong>activate</strong>: the first time you copy the try-it command on the home page, once per browser;</li>
