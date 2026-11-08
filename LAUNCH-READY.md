@@ -39,8 +39,9 @@ itself alone: nothing in `src/`, `action.yml` or the CLI's behaviour changed. `n
      break the "nothing leaves your machine" promise.
    - `checkout`: each click on a Buy button.
    - `referrer` is `document.referrer` only when its origin differs from `location.origin`, otherwise `null`.
-   - Nothing is sent when `navigator.webdriver` is true, when the build isn't Vercel production
-     (`VERCEL_ENV` is baked into `<html data-env>` at build time), or when localStorage `repohq:notrack`
+   - Nothing is sent when `navigator.webdriver` is true, when the build isn't production
+     (`NEXT_PUBLIC_DEPLOY_ENV` from `npm run cf:build`, else `VERCEL_ENV`, is baked into `<html data-env>` at
+     build time), or when localStorage `repohq:notrack`
      holds any value. If storage is blocked, nothing is sent either.
 5. **Deployment.**
    - `vercel.json`: build command `npm run site:build`, output `site/out`, `cleanUrls`, and a CSP whose
@@ -90,7 +91,8 @@ Also changed:
   - The catch: **changing an env var needs a redeploy.**
   - The canonical origin is `SITE_URL`, else `https://$VERCEL_PROJECT_PRODUCTION_URL` (Vercel sets that to
     the production domain, so a custom domain is picked up on the next deploy), else
-    `https://pr-receipt.vercel.app`.
+    `https://pr-receipt.1426davejobs.workers.dev` (the Cloudflare Worker, production since 2026-11-08; it was
+    `https://pr-receipt.vercel.app`).
 - **Try-it command.** prreceipt isn't on npm yet, so the site says
   `git clone … ~/pr-receipt && node ~/pr-receipt/src/bin.ts show`. That works with Node ≥ 22.18 and no
   install, since the CLI has no runtime dependencies.

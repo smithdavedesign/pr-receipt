@@ -1,0 +1,15 @@
+// PR Receipt's website on Cloudflare Workers (free plan): static assets only, no Worker code. `npm run cf:build`
+// writes site/out (the same pages Vercel served) counted as production, plus site/out/_headers with vercel.json's
+// headers (the CSP). Vercel ignores this file. Deploy with the credential broker, which injects the token:
+//   provision cloudflare deploy pr-receipt <this checkout>
+{
+  "name": "pr-receipt",
+  "compatibility_date": "2026-10-15",
+  "assets": {
+    "directory": "site/out",
+    // /privacy → privacy.html, like Vercel's cleanUrls.
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  },
+  "workers_dev": true
+}

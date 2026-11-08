@@ -2,9 +2,10 @@
 // build time by site/build.ts. Every page gets its own <title> and description, a canonical URL, Open Graph and
 // Twitter card tags with the 1200×630 share image, and SoftwareApplication JSON-LD with the $9/month offer.
 //
-// Configuration comes from the build's environment (Vercel's, in production) and is checked here:
+// Configuration comes from the build's environment and is checked here:
 //   STRIPE_PAYMENT_LINK            the Buy button's target; no valid https link → no Buy button
-//   VERCEL_ENV                     the visit beacon only runs in a "production" build
+//   NEXT_PUBLIC_DEPLOY_ENV         the deploy env (`npm run cf:build` sets "production" for the Cloudflare Worker),
+//     else VERCEL_ENV              Vercel's; the visit beacon only runs in a "production" build
 //   SITE_URL                       canonical origin; else https://$VERCEL_PROJECT_PRODUCTION_URL, else the default
 import { escapeHtml } from './markdown.ts';
 import { HEIGHT, SHARE_RECEIPT, WIDTH } from './og-image.ts';
@@ -13,7 +14,8 @@ export const REPO_URL = 'https://github.com/smithdavedesign/pr-receipt';
 export const ISSUES_URL = `${REPO_URL}/issues`;
 /** package.json's "license": "MIT". */
 const MIT_URL = 'https://opensource.org/licenses/MIT';
-export const DEFAULT_SITE_URL = 'https://pr-receipt.vercel.app';
+/** Production: the Cloudflare Worker since 2026-11-08 (Vercel's account is blocked; it was pr-receipt.vercel.app). */
+export const DEFAULT_SITE_URL = 'https://pr-receipt.1426davejobs.workers.dev';
 export const NAME = 'PR Receipt';
 /** REVENUE.md: $9/month per team, flat, up to 10 developers. */
 export const PRICE = { amount: '9.00', currency: 'USD', text: '$9/month' } as const;
@@ -30,7 +32,8 @@ export interface SiteConfig {
   url: string;
   /** A checked https URL for the Buy button, or null to leave the button out. */
   paymentLink: string | null;
-  /** VERCEL_ENV at build time ("production", "preview", "development") or "" outside Vercel. */
+  /** The deploy env at build time: NEXT_PUBLIC_DEPLOY_ENV (the Cloudflare build), else VERCEL_ENV ("production",
+   * "preview", "development"), else "". */
   env: string;
 }
 
@@ -72,16 +75,16 @@ export function paymentLink(value: string | undefined): { link: string | null; w
 
 export function siteConfig(env: Env): { config: SiteConfig; warnings: string[] } {
   const pay = paymentLink(env.STRIPE_PAYMENT_LINK);
-  const vercelEnv = env.VERCEL_ENV?.trim() ?? '';
+  const deployEnv = env.NEXT_PUBLIC_DEPLOY_ENV?.trim() || env.VERCEL_ENV?.trim() || '';
   return {
-    config: { url: siteUrl(env), paymentLink: pay.link, env: /^[a-z]{1,20}$/.test(vercelEnv) ? vercelEnv : '' },
+    config: { url: siteUrl(env), paymentLink: pay.link, env: /^[a-z]{1,20}$/.test(deployEnv) ? deployEnv : '' },
     warnings: pay.warning ? [pay.warning] : [],
   };
 }
 
 export interface Page {
   path: '/' | '/privacy' | '/terms';
-  /** File in the build output; Vercel's cleanUrls serves privacy.html at /privacy. */
+  /** File in the build output; Vercel's cleanUrls (and the Worker's auto-trailing-slash) serve privacy.html at /privacy. */
   file: string;
   title: string;
   description: string;
@@ -226,10 +229,10 @@ const PRIVACY: Page = {
   title: 'Privacy | PR Receipt',
   description:
     'What PR Receipt collects: nothing from the CLI or your logs. This site sets no cookies and counts three anonymous events: visit, activate and checkout.',
-  updated: '2026-10-13',
+  updated: '2026-11-08',
   body: () => `<main class="doc"><div class="wrap narrow">
 <h1>Privacy</h1>
-<p class="updated">Last updated 13 October 2026</p>
+<p class="updated">Last updated 8 November 2026</p>
 <p><strong>Short version:</strong> the prreceipt tool collects nothing. This website sets no cookies and counts three kinds of anonymous event.</p>
 
 <h2>The prreceipt CLI and GitHub Action</h2>
@@ -251,7 +254,7 @@ const PRIVACY: Page = {
 </ul></li>
 <li>Each event holds three things: the product (<code>pr-receipt</code>), the event's name, and the address of the other website that linked you here, if any. Addresses on this site are never sent, and neither is a cookie or any identifier. Your browser's session and local storage remember that an event was sent; that stays on your device.</li>
 <li>Nothing is sent from automated browsers, from preview deployments, or when your browser has <code>repohq:notrack</code> in local storage. To opt out, run <code>localStorage.setItem('repohq:notrack', '1')</code> in your browser's console on this site.</li>
-<li>Like every website, the hosts (Vercel, for this site and for RepoHQ) receive your IP address and browser details with each request and keep standard server logs. PR Receipt doesn't use them to identify anyone.</li>
+<li>Like every website, the hosts (Cloudflare, for this site and for RepoHQ's counter) receive your IP address and browser details with each request and keep standard server logs. PR Receipt doesn't use them to identify anyone.</li>
 </ul>
 
 <h2>If you buy Team Pack</h2>
