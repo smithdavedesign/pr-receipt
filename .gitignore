@@ -2,3 +2,5 @@ node_modules/
 dist/
 *.tgz
 site/out/
+# Cloudflare: wrangler's local state.
+.wrangler/

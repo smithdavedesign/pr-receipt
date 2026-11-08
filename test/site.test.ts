@@ -8,7 +8,7 @@ import { join, relative } from 'node:path';
 import { describe, it } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { inflateSync } from 'node:zlib';
-import { DEFAULT_OUT, SAMPLE_RECEIPT, buildSite, sampleReceiptHtml } from '../site/build.ts';
+import { DEFAULT_OUT, SAMPLE_RECEIPT, buildSite, headersFile, sampleReceiptHtml } from '../site/build.ts';
 import { HEIGHT, SHARE_RECEIPT, WIDTH, crc32, drawShareImage } from '../site/og-image.ts';
 import {
   ISSUES_URL,
@@ -95,20 +95,20 @@ describe('site: every public page renders with its own search and sharing tags',
 
   it('has a canonical URL, Open Graph and Twitter card tags with the 1200×630 image', () => {
     for (const { page, html } of pages) {
-      const url = `https://pr-receipt.vercel.app${page.path}`;
+      const url = `https://pr-receipt.1426davejobs.workers.dev${page.path}`;
       assert.equal(canonicalOf(html), url);
       assert.equal(meta(html, 'property', 'og:url'), url);
       assert.equal(meta(html, 'property', 'og:type'), 'website');
       assert.equal(meta(html, 'property', 'og:title'), page.title);
       assert.equal(meta(html, 'property', 'og:description'), page.description);
-      assert.equal(meta(html, 'property', 'og:image'), 'https://pr-receipt.vercel.app/og.png');
+      assert.equal(meta(html, 'property', 'og:image'), 'https://pr-receipt.1426davejobs.workers.dev/og.png');
       assert.equal(meta(html, 'property', 'og:image:width'), '1200');
       assert.equal(meta(html, 'property', 'og:image:height'), '630');
       assert.ok(meta(html, 'property', 'og:image:alt'));
       assert.equal(meta(html, 'name', 'twitter:card'), 'summary_large_image');
       assert.equal(meta(html, 'name', 'twitter:title'), page.title);
       assert.equal(meta(html, 'name', 'twitter:description'), page.description);
-      assert.equal(meta(html, 'name', 'twitter:image'), 'https://pr-receipt.vercel.app/og.png');
+      assert.equal(meta(html, 'name', 'twitter:image'), 'https://pr-receipt.1426davejobs.workers.dev/og.png');
     }
   });
 
@@ -118,7 +118,7 @@ describe('site: every public page renders with its own search and sharing tags',
       assert.equal(ld['@context'], 'https://schema.org');
       assert.equal(ld['@type'], 'SoftwareApplication');
       assert.equal(ld.name, 'PR Receipt');
-      assert.equal(ld.url, 'https://pr-receipt.vercel.app/');
+      assert.equal(ld.url, 'https://pr-receipt.1426davejobs.workers.dev/');
       assert.equal(ld.offers['@type'], 'Offer');
       assert.equal(ld.offers.price, '9.00');
       assert.equal(ld.offers.priceCurrency, 'USD');
@@ -160,7 +160,7 @@ describe('site: every public page renders with its own search and sharing tags',
   });
 
   it('writes robots.txt allowing indexing and pointing at the sitemap', async () => {
-    assert.equal(await read('robots.txt'), 'User-agent: *\nAllow: /\n\nSitemap: https://pr-receipt.vercel.app/sitemap.xml\n');
+    assert.equal(await read('robots.txt'), 'User-agent: *\nAllow: /\n\nSitemap: https://pr-receipt.1426davejobs.workers.dev/sitemap.xml\n');
   });
 
   it('lists exactly the public pages in sitemap.xml, at their canonical URLs', async () => {
@@ -168,7 +168,7 @@ describe('site: every public page renders with its own search and sharing tags',
     assert.ok(xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'));
     const locs = [...xml.matchAll(/<loc>([^<]*)<\/loc>/g)].map((m) => m[1]);
     assert.deepEqual(locs, pages.map(({ html }) => canonicalOf(html)));
-    assert.deepEqual(locs, ['https://pr-receipt.vercel.app/', 'https://pr-receipt.vercel.app/privacy', 'https://pr-receipt.vercel.app/terms']);
+    assert.deepEqual(locs, ['https://pr-receipt.1426davejobs.workers.dev/', 'https://pr-receipt.1426davejobs.workers.dev/privacy', 'https://pr-receipt.1426davejobs.workers.dev/terms']);
     assert.equal([...xml.matchAll(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g)].length, 3);
   });
 
@@ -261,16 +261,16 @@ describe('site: the Buy button follows STRIPE_PAYMENT_LINK', () => {
       ...(await readdir(join(ROOT, 'site'), { recursive: true })).map((f) => join('site', String(f))),
       ...(await readdir(join(ROOT, 'scripts'))).map((f) => join('scripts', f)),
       'vercel.json',
-      '.provision',
-    ].filter((f) => !f.startsWith(join('site', 'out')) && /\.(ts|js|mjs|json|css|svg)$|^\.provision$/.test(f));
+      'wrangler.jsonc',
+    ].filter((f) => !f.startsWith(join('site', 'out')) && /\.(ts|js|mjs|json|jsonc|css|svg)$/.test(f));
     assert.ok(files.length > 8);
     for (const f of files) assert.doesNotMatch(await readFile(join(ROOT, f), 'utf8'), /stripe\.com/i, f);
   });
 });
 
 describe('site: configuration from the environment', () => {
-  it('takes the canonical origin from SITE_URL, then Vercel production URL, then the default', () => {
-    assert.equal(siteConfig({}).config.url, 'https://pr-receipt.vercel.app');
+  it('takes the canonical origin from SITE_URL, then Vercel production URL, then the default (the Cloudflare Worker)', () => {
+    assert.equal(siteConfig({}).config.url, 'https://pr-receipt.1426davejobs.workers.dev');
     assert.equal(siteConfig({ VERCEL_PROJECT_PRODUCTION_URL: 'prreceipt.dev' }).config.url, 'https://prreceipt.dev');
     assert.equal(siteConfig({ SITE_URL: 'https://example.org/', VERCEL_PROJECT_PRODUCTION_URL: 'prreceipt.dev' }).config.url, 'https://example.org');
     const c = siteConfig({ SITE_URL: 'https://example.org' }).config;
@@ -285,12 +285,17 @@ describe('site: configuration from the environment', () => {
     }
   });
 
-  it('marks the page with VERCEL_ENV, which the beacon reads', () => {
-    const env = (v?: string) => /<html lang="en" data-env="([^"]*)">/.exec(renderPage(PAGES[0], siteConfig({ VERCEL_ENV: v }).config, ''))?.[1];
+  it('marks the page with the deploy env (NEXT_PUBLIC_DEPLOY_ENV, else VERCEL_ENV), which the beacon reads', () => {
+    const envOf = (e: Record<string, string | undefined>) => /<html lang="en" data-env="([^"]*)">/.exec(renderPage(PAGES[0], siteConfig(e).config, ''))?.[1];
+    const env = (v?: string) => envOf({ VERCEL_ENV: v });
     assert.equal(env('production'), 'production');
     assert.equal(env('preview'), 'preview');
     assert.equal(env(undefined), '');
     assert.equal(env('"><b>'), '');
+    // The Cloudflare build (npm run cf:build) is production; it wins over a Vercel value.
+    assert.equal(envOf({ NEXT_PUBLIC_DEPLOY_ENV: 'production' }), 'production');
+    assert.equal(envOf({ NEXT_PUBLIC_DEPLOY_ENV: 'production', VERCEL_ENV: 'preview' }), 'production');
+    assert.equal(envOf({ NEXT_PUBLIC_DEPLOY_ENV: '"><b>' }), '');
   });
 });
 
@@ -548,7 +553,7 @@ describe('site: RepoHQ visit beacon (site/static/site.js)', () => {
       ['navigator.webdriver', { webdriver: true }],
       ['a preview deployment', { env: 'preview' }],
       ['a development build', { env: 'development' }],
-      ['a local build (no VERCEL_ENV)', { env: '' }],
+      ['a local build (no deploy env)', { env: '' }],
       ['storage blocked', { local: storage({ throws: true }) }],
     ];
     const notrack = storage();
@@ -598,7 +603,7 @@ describe('site: preview server (site/serve.ts)', async () => {
       for (const path of ['/privacy', '/terms']) {
         const r = await fetch(base + path);
         assert.equal(r.status, 200, path);
-        assert.equal(canonicalOf(await r.text()), `https://pr-receipt.vercel.app${path}`);
+        assert.equal(canonicalOf(await r.text()), `https://pr-receipt.1426davejobs.workers.dev${path}`);
       }
       const png = await fetch(`${base}/og.png`);
       assert.equal(png.headers.get('content-type'), 'image/png');
@@ -645,11 +650,37 @@ describe('site: deploy config', () => {
     assert.deepEqual(directives['frame-ancestors'], ["'none'"]);
   });
 
-  it('.provision asks the broker for the Vercel project and the Stripe payment link', async () => {
-    assert.equal(
-      await readFile(join(ROOT, '.provision'), 'utf8'),
-      'vercel project pr-receipt\nrequest "Stripe payment link for pr-receipt: $9/month, per REVENUE.md"\n',
-    );
+  it('wrangler.jsonc serves the same site/out from the Cloudflare Worker, built by cf:build as production', async () => {
+    // wrangler.jsonc → JSON: drop // comments (none of its strings hold "//") and trailing commas.
+    const text = (await readFile(join(ROOT, 'wrangler.jsonc'), 'utf8')).replace(/^\s*\/\/.*$/gm, '').replace(/,(\s*[}\]])/g, '$1');
+    const worker = JSON.parse(text);
+    const pkg = JSON.parse(await readFile(join(ROOT, 'package.json'), 'utf8'));
+    assert.equal(worker.name, 'pr-receipt', 'provision cloudflare deploy: the Worker is named after the repo');
+    assert.equal(worker.main, undefined, 'static assets only');
+    assert.equal(worker.build, undefined, 'the broker runs no build command');
+    assert.equal(worker.assets.directory, relative(ROOT, DEFAULT_OUT));
+    assert.equal(worker.assets.html_handling, 'auto-trailing-slash', '/privacy serves privacy.html, like cleanUrls');
+    assert.equal(pkg.scripts['cf:build'], 'NEXT_PUBLIC_DEPLOY_ENV=production node --disable-warning=ExperimentalWarning site/build.ts --cloudflare');
+  });
+
+  it("the Cloudflare build writes _headers with vercel.json's headers, the CSP included", async () => {
+    const vercel = JSON.parse(await readFile(join(ROOT, 'vercel.json'), 'utf8'));
+    const out = await tempDir('prr-cf-');
+    const { files } = await buildSite(out, { NEXT_PUBLIC_DEPLOY_ENV: 'production' }, { cloudflare: true });
+    assert.ok(files.includes('_headers'));
+    const lines = (await readFile(join(out, '_headers'), 'utf8')).split('\n');
+    assert.equal(lines[0], '/*');
+    for (const [key, value] of Object.entries(vercelHeaders())) {
+      assert.ok(lines.some((l) => l.toLowerCase() === `  ${key}: ${value}`.toLowerCase()), key);
+    }
+    assert.equal(lines.length, 1 + vercel.headers[0].headers.length + 1, 'one rule and a final newline');
+    assert.match(await readFile(join(out, 'index.html'), 'utf8'), /<html lang="en" data-env="production">/);
+    assert.equal(existsSync(join((await built()).out, '_headers')), false, 'npm run site:build (Vercel) writes no _headers');
+  });
+
+  it('headersFile turns only plain sources into _headers paths', () => {
+    assert.equal(headersFile({ headers: [{ source: '/thanks', headers: [{ key: 'X-Robots-Tag', value: 'noindex' }] }] }), '/thanks\n  X-Robots-Tag: noindex\n');
+    assert.throws(() => headersFile({ headers: [{ source: '/blog/:slug(.*)', headers: [] }] }), /no _headers equivalent/);
   });
 
   it('the build output directory is git-ignored, and not named like the npm package dist/', async () => {

@@ -7,8 +7,8 @@
 //   checkout  each click on a Buy button.
 // The referrer is document.referrer only when another site sent the visitor, else null, so this site's own
 // URLs (share links included) never leave the page. Nothing is sent from automated browsers
-// (navigator.webdriver), from builds that aren't Vercel production (<html data-env>), or when localStorage
-// "repohq:notrack" is set.
+// (navigator.webdriver), from builds that aren't production (<html data-env>: NEXT_PUBLIC_DEPLOY_ENV from
+// `npm run cf:build` on the Cloudflare Worker, else Vercel's VERCEL_ENV), or when localStorage "repohq:notrack" is set.
 
 export const SIGNAL_URL = 'https://idea-factory.1426davejobs.workers.dev/api/ideas/signal';
 export const SLUG = 'pr-receipt';

@@ -23,6 +23,7 @@
     "start": "node --disable-warning=ExperimentalWarning src/bin.ts",
     "screenshots": "node --disable-warning=ExperimentalWarning scripts/screenshots.mjs",
     "site:build": "node --disable-warning=ExperimentalWarning site/build.ts",
+    "cf:build": "NEXT_PUBLIC_DEPLOY_ENV=production node --disable-warning=ExperimentalWarning site/build.ts --cloudflare",
     "site:serve": "node --disable-warning=ExperimentalWarning site/serve.ts",
     "site:sample": "node --disable-warning=ExperimentalWarning scripts/demo.mjs site/sample.prreceipt.json"
   },
